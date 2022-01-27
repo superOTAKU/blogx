@@ -17,8 +17,12 @@ const router = createRouter({
                     component: () => import('@/components/Home.vue')
                 },
                 {
-                    path: '/About', 
+                    path: '/about', 
                     component: () => import('@/components/About.vue')
+                },
+                {
+                    path: '/post/:id', 
+                    component: () => import('@/components/PostDetail.vue')
                 }
             ]
         }

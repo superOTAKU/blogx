@@ -1,16 +1,20 @@
 <template>
 
-<div class="card">
-    <div class="flex justify-content-center flex-wrap card-container yellow-container">
-        <div class="flex align-items-center justify-content-center w-4rem h-4rem bg-yellow-500 font-bold text-gray-900 border-round m-2">1</div>
-        <div class="flex align-items-center justify-content-center w-4rem h-4rem bg-yellow-500 font-bold text-gray-900 border-round m-2">2</div>
-        <div class="flex align-items-center justify-content-center w-4rem h-4rem bg-yellow-500 font-bold text-gray-900 border-round m-2">3</div>
+<div class="grid grid-nogutter">
+    <div class="col-12 md:col-9">
+        <PostList/>
+    </div>
+    <div class="col-12 md:col-3">
+        <HomeSideBar/>
     </div>
 </div>
 </template>
 
 <script>
-
+import PostList from '@/components/PostList'
+import HomeSideBar from '@/components/HomeSideBar'
 export default {
+    name: 'Home',
+    components: {PostList, HomeSideBar}
 }
 </script>

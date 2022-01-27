@@ -1,6 +1,6 @@
 <template>
 <div class="footer">
-    <div class="grid h-full w-full">
+    <div class="grid grid-nogutter h-full w-full">
         <div class="col-12 h-full w-full text-center font-italic text-xs find-me">
             Find Me: 215841796@qq.com
         </div>
