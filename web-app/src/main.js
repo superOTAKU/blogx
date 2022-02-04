@@ -17,4 +17,8 @@ app.use(router)
 import store from '@/store'
 app.use(store)
 
+import initAxios from '@/axios'
+//vue对象外部访问公共属性的方式，例如访问$store
+initAxios(app.config.globalProperties)
+
 app.mount("#app")

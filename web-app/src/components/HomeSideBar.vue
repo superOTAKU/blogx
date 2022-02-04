@@ -6,8 +6,8 @@
             </template>
             <template #content>
                 <ul class="list-none">
-                    <li v-for="category in categories" :key="category">
-                        <Button class="p-button-link p-button-sm" :label="category"/>
+                    <li v-for="category in categories" :key="category.id">
+                        <Button class="p-button-link p-button-sm" :label="category.name"/>
                     </li>
                 </ul>
             </template>
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import {getCategories} from '@/api/category'
+
 export default {
     name: 'HomeSideBar',
     data() {
@@ -24,8 +26,13 @@ export default {
         }
     },
     created() {
-        for(let i = 0; i < 10; i++) {
-            this.categories.push('Category-' + i)
+        this.getCategories()
+    },
+    methods: {
+        getCategories() {
+            getCategories().then(res => {
+                this.categories = res.data
+            })
         }
     }
 }

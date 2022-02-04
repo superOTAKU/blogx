@@ -10,7 +10,8 @@
                     </div>
                 </template>
                 <template #end>
-                    <Button label="Login" class="p-button-sm p-button-text" @click="showLoginForm"/>
+                    <Button v-if="!isLogin" label="Login" class="p-button-sm p-button-text" @click="showLoginForm"/>
+                    <Button v-if="isLogin" label="Logout" class="p-button-sm p-button-text" @click="logout"/>
                 </template>
             </Menubar>
         </header>
@@ -47,8 +48,16 @@
 <script>
 import Footer from '@/components/Footer'
 import Logo from '@/assets/logo.png'
+import {mapGetters} from 'vuex'
 export default {
     name: 'Layout',
+    props: {
+        //加载完页面是否默认弹登录框
+        show: {
+            type: Boolean,
+            default: false
+        }
+    },
     components: {Footer},
     data() {
         return {
@@ -72,6 +81,16 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapGetters({
+            isLogin: 'user/isLogined'
+        })
+    },
+    mounted() {
+        if (this.show) {
+            this.showLoginForm();
+        }
+    },
     methods: {
         showLoginForm() {
             this.loginDialog.visible = true
@@ -90,7 +109,16 @@ export default {
             }).catch(e => {
                 //弹窗提示登录失败
                 this.hideLoginForm();
-                this.$toast.add({severity:'error', summary: 'Login Fail', detail:'You fail login because ' + e, life: 1500});
+                this.$toast.add({severity:'error', summary: 'Login Fail', detail: 'You fail login because ' + e, life: 1500});
+            })
+        },
+        logout() {
+            this.$store.commit('user/clearAccessToken')
+            this.$toast.add({
+                severity: 'success',
+                summary: 'Logout Success',
+                detail: 'Logout Success',
+                life: 1500
             })
         }
     }

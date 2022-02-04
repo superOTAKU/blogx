@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul class="list-none">
-            <li v-for="post in postData.list" :key="post.id">
+            <li v-for="post in postData.records" :key="post.id">
                 <Card class="my-3 mx-0 md:mx-3">
                     <template #title>
                         {{post.title}}
@@ -13,43 +13,49 @@
                         {{post.overview}}
                     </template>
                     <template #footer>
-                        <Button label="Read More" class="p-button-text p-button-sm p-button-plain" @click="() => $router.push('/post/1')"/>
+                        <Button label="Read More" class="p-button-text p-button-sm p-button-plain" @click="routeToPostDetail(post.id)"/>
                     </template>
                 </Card>
             </li>
         </ul>
-        <Paginator :rows="10" :totalRecords="100" :first="1" />
+        <Paginator :rows="pageConfig.rows" :totalRecords="postData.total" :first="pageConfig.page" />
     </div>
 </template>
 
 <script>
+
+import {getPostList} from '@/api/post'
+
 export default {
     name: 'PostList',
     created() {
-        this.postData = this.mockPosts();
+        this.getPosts()
     },
     data() {
         return {
-            postData: null,
+            postData: {
+                records: [],
+                total: 0
+            },
+            pageConfig: {
+                page: 1,
+                rows: 10
+            }
         }
     },
     methods: {
-        mockPosts() {
-            let list = []
-            for (let i = 0; i < 10; i++) {
-                list.push({
-                    id: i,
-                    title: 'Post-' + i,
-                    createTime: '2020-10-10',
-                    overview: 'Some overview description-' + i       
-                })
-            }
-            return {
-                list: list,
-                page: 1,
-                total: 100,
-                rows: 10
-            }
+        getPosts() {
+            getPostList(this.pageConfig.page, this.pageConfig.rows).then(res => {
+                this.postData = res.data
+            })
+        },
+        routeToPostDetail(id) {
+            this.$router.push({
+                path: '/post/' + id,
+                params: {
+                    id: id
+                }
+            })
         }
     }
 }

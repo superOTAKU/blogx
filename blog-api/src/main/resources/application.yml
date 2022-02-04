@@ -1,0 +1,20 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: blogx
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    name: defaultDataSource
+    url: jdbc:mysql://localhost:3306/blogx?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: abcd1234
+#如果系统不存在用户，提供初始化的用户名密码
+bootstrap:
+  username: summer
+  password: hello123
+mybatis-plus:
+  type-enums-package: org.summer.blogx.infrastructure.entity.enums
+auth:
+  publicKeyPath: secrets/publicKey.pem
+  privateKeyPath: secrets/privateKey.pem

@@ -3,7 +3,7 @@
         <h1>{{post.title}}</h1>
         <h4>Categories:</h4>
         <div>
-            <Chip v-for="category in post.categories" :label="category" :key="category" class="mr-2"/>
+            <Chip v-for="category in post.categories" :label="category.name" :key="category.id" class="mr-2"/>
         </div>
         <Divider/>
         <!--解析markdown语法-->
@@ -17,6 +17,8 @@
 import Markdown from 'vue3-markdown-it'
 import 'highlight.js/styles/monokai.css'
 
+import {getPostDetail} from '@/api/post'
+
 export default {
     name: 'PostDetail',
     components: {Markdown},
@@ -27,17 +29,18 @@ export default {
                 categories: [],
                 title: null,
                 createTime: null,
-                content: null,
+                content: '',
             }
         }
     },
     created() {
-        this.post = {
-            id: 1,
-            categories: ['Java', 'JavaScript'],
-            title: 'Java and JavaScript',
-            createTime: '2020-10-10',
-            content: `Nowadays, Programing becomes more and more popular`
+        this.getPostDetail()
+    },
+    methods: {
+        getPostDetail() {
+            getPostDetail(this.$route.params.id).then(res => {
+                this.post = res.data
+            })
         }
     }
 }
